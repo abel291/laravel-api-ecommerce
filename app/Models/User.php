@@ -49,6 +49,6 @@ class User extends Authenticatable
 
     public function card_products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity', 'total_price_quantity');
+        return $this->belongsToMany(Product::class)->withPivot('quantity', 'total_price_quantity','id');
     }
 }

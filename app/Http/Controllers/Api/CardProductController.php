@@ -19,7 +19,7 @@ class CardProductController extends Controller
     public function index(Request $request)
     {
 
-        $products = auth()->user()->card_products->load('specifications');
+        $products = $this->get_products();
         $amount = $products->sum('pivot.total_price_quantity');
         $charges = Helpers::get_charges_products($amount);
 
@@ -27,7 +27,6 @@ class CardProductController extends Controller
             'products' => $products,
             'charges' => $charges
         ]);
-        
     }
 
     // /**
@@ -48,13 +47,14 @@ class CardProductController extends Controller
      */
     public function store(Request $request)
     {
+
+
         //$user=auth()->user();
         $user = auth()->user();
-        $products = $user->card_products->load('specifications');
-
+        $products = $this->get_products();
         $product = $products->firstWhere('id', $request->product_id);
 
-        //cambiar cantidad
+        //si el productos ya esta en el carritos no se agrega otro, solo se le cambia la cantidad a este
         if ($product &&  $product->availables >= $request->quantity) {
             $product->pivot->quantity = $request->quantity;
             $product->pivot->total_price_quantity = $product->price * $request->quantity;
@@ -63,6 +63,14 @@ class CardProductController extends Controller
 
         //agregar nuevo producto al carrito
         if (!$product  && $request->purchase == false) {
+
+            //limite de productos para el carrito
+            $max_products = 5;
+            if ($products->count() >= $max_products) {
+                return response()->json([
+                    'error' => 'Carrito lleno! ,no puedes tener mas de ' . $max_products . ' productos en el carritos',
+                ], 422);
+            }
 
             $product = Product::where('id', $request->product_id)->where('availables', '>=', $request->quantity)->first();
             if ($product) {
@@ -126,14 +134,19 @@ class CardProductController extends Controller
      */
     public function destroy($id)
     {
-        $user = auth()->user();
-        $user->card_products()->detach($id);
-        $products = $user->card_products()->with('specifications')->get();
+
+        auth()->user()->card_products()->detach($id);
+        $products = $this->get_products();
         $amount = $products->sum('pivot.total_price_quantity');
         $charges = Helpers::get_charges_products($amount);
         return response()->json([
             'products' => $products,
             'charges' => $charges
         ]);
+    }
+
+    public function get_products()
+    {
+        return auth()->user()->card_products->load('specifications')->sortByDesc('pivot.id')->values();
     }
 }
