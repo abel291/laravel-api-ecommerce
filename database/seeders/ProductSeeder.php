@@ -26,7 +26,7 @@ class ProductSeeder extends Seeder
             for ($i = 0; $i < 10; $i++) {
                 $name = $category->name.' '.$faker->words(4, true);
 
-                echo $category->name . '--' . $i . "\n";
+               
                 Product::factory()
 
                     ->has(Image::factory()->count(3)->state(function (array $attributes) use ($category) {

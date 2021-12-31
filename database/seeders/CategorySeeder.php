@@ -23,7 +23,6 @@ class CategorySeeder extends Seeder
 
         Specification::truncate();
 
-
         $categories = [
             'procesadores',
             'board',
@@ -43,10 +42,9 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $key => $value) {
-            echo $value . "\n";
+
             Category::factory()
                 ->has(Specification::factory()->count(6))
-
                 ->create([
                     'name' => ucfirst($value),
                     'slug' => Str::slug($value),
