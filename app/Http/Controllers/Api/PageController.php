@@ -39,24 +39,37 @@ class PageController extends Controller
         $featured = Product::where('featured', true)->get()->random(8);
         $new = Product::orderBy('id', 'desc')->limit(8)->get();
         $banners = [
-            [
-                "img" => "banner-home-5.jpg",
-                "alt" => "banner-1"
-            ],
-            [
-                "img" => "banner-home-6.jpg",
-                "alt" => "banner-2"
-            ],
-            [
-                "img" => "banner-home-7.jpg",
-                "alt" => "banner-3"
-            ],
-            [
-                "img" => "banner-home-8.jpg",
-                "alt" => "banner-3"
-            ]
+            'carousel' => [
+                [
+                    "img" => "/img/home/banner-home-5.jpg",
+                    "alt" => "banner-1"
+                ],
+                [
+                    "img" => "/img/home/banner-home-6.jpg",
+                    "alt" => "banner-2"
+                ],
+                [
+                    "img" => "/img/home/banner-home-7.jpg",
+                    "alt" => "banner-3"
+                ],
+                [
+                    "img" => "/img/home/banner-home-8.jpg",
+                    "alt" => "banner-3"
+                ]
 
+            ],
+            'left' => [
+                "img" => "/img/home/banner-home-9.png",
+                "alt" => "banner-9",
+                "path" => "https://www.corsair.com/p/10WAA9901",
+            ],
+            'right' => [
+                "img" => "/img/home/banner-home-10.png",
+                "alt" => "banner-10",
+                "path" => "https://www.corsair.com/ddr5-memory",
+            ],
         ];
+
 
         return response()->json([
             'featured' => $featured,
@@ -70,7 +83,7 @@ class PageController extends Controller
     {
 
         $related_products = Product::whereBetween('id', [$id - 5, $id + 5])->limit(5)->get();
-        $product = Product::with('specifications', 'images','category')->where('id', $id)->where('slug', $slug)->first();
+        $product = Product::with('specifications', 'images', 'category')->where('id', $id)->where('slug', $slug)->first();
 
         return response()->json([
             'product' => $product,
