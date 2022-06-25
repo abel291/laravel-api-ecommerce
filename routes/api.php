@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\ProductCheckoutController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,9 +34,12 @@ Route::prefix('auth')->group(function () {
         });
         Route::post('/logout', [AuthenticationController::class, 'logout']);
 
-        Route::put('/user/profile-information', [AuthenticationController::class, 'profile_information']);
+        Route::put('/user/profile-store', [ProfileController::class, 'profile_store']);
 
-        Route::put('/user/password', [AuthenticationController::class, 'update_user_password']);
+        Route::put('/user/password-store', [ProfileController::class, 'password_store']);
+
+        Route::get('/user/orders', [ProfileController::class, 'orders']);
+        Route::get('/user/order-details/{code}', [ProfileController::class, 'order_details']);
     });
 });
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Routing\UrlGenerator;
@@ -29,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         if (env('REDIRECT_HTTPS')) {
             $url->formatScheme('https://');
         }
+        JsonResource::withoutWrapping();
     }
 }

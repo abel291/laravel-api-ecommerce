@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             ProductSeeder::class,
             CardProductSeeder::class,
+            OrderSeeder::class,
         ]);
         $faker = Faker\Factory::create();
 

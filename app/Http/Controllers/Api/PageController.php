@@ -78,7 +78,6 @@ class PageController extends Controller
         ]);
     }
 
-
     function product($id, $slug)
     {
 
@@ -90,7 +89,6 @@ class PageController extends Controller
             'related_products' => $related_products
         ]);
     }
-
 
     function offers()
     {
@@ -115,6 +113,7 @@ class PageController extends Controller
             'banners' => $banners,
         ]);
     }
+
     function assemblies()
     {
         $products = Category::with('products')->where('slug', 'ensambles')->first()->products->slice(0, 20);
@@ -137,6 +136,7 @@ class PageController extends Controller
             'banners' => $banners,
         ]);
     }
+
     function combos()
     {
         $products = Category::with('products')->where('slug', 'combos')->first()->products->slice(0, 20);
@@ -161,12 +161,3 @@ class PageController extends Controller
     }
 }
 
-//termianr eñl login y pasar el context a authProvider
-
-//revisar el search para terminar
-
-//terminar el change password
-
-//terminar el proceso de pago ,en checkout como  mostrar la info
-
-//modificar los seeder para los productos cons sus nombre de imagen
