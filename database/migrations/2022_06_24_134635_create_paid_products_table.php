@@ -14,11 +14,11 @@ class CreatePaidProductsTable extends Migration
     public function up()
     {
         Schema::create('paid_products', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedFloat('price');
+            $table->id();            
             $table->string('name');
             $table->unsignedInteger('quantity');
-            $table->unsignedInteger('price_quantity');
+			$table->unsignedFloat('price');
+            $table->unsignedFloat('price_quantity');
             $table->timestamps();
         });
     }
